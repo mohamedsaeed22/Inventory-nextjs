@@ -1,4 +1,5 @@
-import FormModal from "./FormModal";
+ import FormModal from "./FormModal";
+import { useCategories } from "@/hooks/useCategories";
 
 export type FormContainerProps = {
   table: "inventory" | "expenses" | "loans" | "categories";
@@ -8,8 +9,18 @@ export type FormContainerProps = {
 };
 
 const FormContainer = ({ table, type, data, id }: FormContainerProps) => {
-  let relatedData = {};
-
+  let relatedData: any = {};
+  if (type !== "delete") {
+    switch (table) {
+      case "inventory":
+        const { categories } = useCategories();
+        relatedData = { categories };
+        break;
+      default:
+        break;
+    }
+  }
+  console.log(data)
   return (
     <div>
       <FormModal

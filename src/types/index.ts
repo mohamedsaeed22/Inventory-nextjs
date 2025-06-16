@@ -17,3 +17,34 @@ export type ExistingItem = {
   isDeleted: boolean;
   id: number;
 };
+
+export type Category = {
+  name: string;
+  number: string;
+  createdByUserId: string;
+  createdUser: string | null;
+  createdDate: string | null;
+  lastModifiedUserId: string | null;
+  lastModifiedUser: string | null;
+  lastModifiedDate: string | null;
+  isDeleted: boolean;
+  id: number;
+};
+
+export type Expense = {
+  id: number;
+  existingItemId: number;
+  existingItem: ExistingItem;
+  dispensedQuantity: number;
+  receiverName: string;
+  deliveredName: string;
+  toWhom: string;
+  notes: string | null;
+  createdByUserId: string;
+  createdUser: string | null;
+  createdDate: string;
+  lastModifiedUserId: string | null;
+  lastModifiedUser: string | null;
+  lastModifiedDate: string;
+  isDeleted: boolean;
+};

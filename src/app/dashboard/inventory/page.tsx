@@ -1,21 +1,22 @@
 "use client";
-
 import FormContainer from "@/components/FormContainer";
+import TableSearch from "@/components/TableSearch";
 import Table from "@/components/Table";
 import { useExistingItems } from "@/hooks/useExistingItems";
 import { ExistingItem } from "@/types";
 import { Loader } from "lucide-react";
-import React from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import Pagination from "@/components/Pagination";
 
 const columns = [
   {
     header: "اسم المنتج",
     accessor: "productName",
   },
-  // {
-  //   header: "الماركة (البرند)",
-  //   accessor: "brand",
-  // },
+  {
+    header: "الماركة (البراند)",
+    accessor: "brand",
+  },
   {
     header: "السيريال",
     accessor: "serial",
@@ -33,7 +34,7 @@ const columns = [
     accessor: "notes",
   },
   {
-    header: "إجراءات",
+    header: "الاجراءات",
     accessor: "actions",
   },
   // ...(role === "admin"
@@ -47,24 +48,25 @@ const columns = [
 ];
 
 const Page = () => {
-  const { existingItems, isLoading, isError, error } = useExistingItems();
-  console.log(existingItems, isLoading, isError, error);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const searchTerm = searchParams.get("SearchTerm") || "";
+  const pageNumber = searchParams.get("pageNumber") || 1;
+  const pageSize = searchParams.get("pageSize") || 10;
+  const { existingItems, isLoading, isError, error, pagination } =
+    useExistingItems(searchTerm, Number(pageNumber), Number(pageSize));
 
   const renderRow = (item: ExistingItem) => (
     <tr
       key={item.id}
       className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-gray-100"
     >
-      <td className="flex items-center gap-4 py-2">
-        <div className="flex flex-col">
-          <h3 className="font-semibold ">{item.name}</h3>
-          <span className="text-xs text-gray-500 ">({item?.brand})</span>
-        </div>
-      </td>
-      <td className="md:table-cell">{item.serial}</td>
-      <td className="md:table-cell">{item.quantity}</td>
-      <td className="md:table-cell">{item.quantityEnum}</td>
-      <td className="md:table-cell">{item.notes}</td>
+      <td className="py-3">{item.name}</td>
+      <td>{item.brand}</td>
+      <td>{item.serial}</td>
+      <td>{item.quantity}</td>
+      <td>{item.quantityEnum}</td>
+      <td>{item.notes}</td>
       <td>
         <div className="flex items-center gap-2">
           <FormContainer table="inventory" type="update" data={item} />
@@ -86,7 +88,11 @@ const Page = () => {
   }
   return (
     <div>
-      <FormContainer table="inventory" type="create" />
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">العهده</h1>
+        <TableSearch />
+        <FormContainer table="inventory" type="create" />
+      </div>
       {isLoading ? (
         // center loader at page
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center gap-2">
@@ -96,6 +102,15 @@ const Page = () => {
       ) : (
         <Table columns={columns} renderRow={renderRow} data={existingItems} />
       )}
+      <Pagination
+        page={Number(pageNumber)}
+        count={pagination?.TotalRecords || 0}
+        onChange={(page) => {
+          router.push(
+            `/dashboard/inventory?pageNumber=${page}&pageSize=${pageSize}&SearchTerm=${searchTerm}`
+          );
+        }}
+      />
     </div>
   );
 };

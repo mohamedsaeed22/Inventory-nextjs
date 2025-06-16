@@ -8,7 +8,7 @@ const Table = ({
   data: any[];
 }) => {
   return (
-    <table className="w-full mt-4">
+    <table className="w-full mt-8">
       <thead>
         <tr className="text-right text-gray-500 text-sm">
           {columns.map((col) => (
@@ -18,7 +18,18 @@ const Table = ({
           ))}
         </tr>
       </thead>
-      <tbody>{data.map((item) => renderRow(item))}</tbody>
+      {/* if no data, show a message */}
+      {data?.length === 0 ? (
+        <tbody>
+          <tr>
+            <td colSpan={columns.length} className="text-center">
+              لا يوجد بيانات
+            </td>
+          </tr>
+        </tbody>
+      ) : (
+        <tbody>{data?.map((item) => renderRow(item))}</tbody>
+      )}
     </table>
   );
 };

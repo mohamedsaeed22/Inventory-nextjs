@@ -2,17 +2,12 @@
 
 import { CircleX, Loader, Plus, SquarePen, Trash } from "lucide-react";
 import dynamic from "next/dynamic";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useFormState } from "react-dom";
-import { toast } from "react-toastify";
-import { FormContainerProps } from "./FormContainer";
-import { deleteExistingItem } from "@/lib/api/existingItems";
+import { Dispatch, SetStateAction, useState } from "react";
 
-const deleteActionMap = {
-  inventory: deleteExistingItem,
-};
+import { FormContainerProps } from "./FormContainer";
+import CategoriesForm from "./forms/CategoriesForm";
+import { useCategories } from "@/hooks/useCategories";
+import { useExistingItems } from "@/hooks/useExistingItems";
 
 const InventoryForm = dynamic(() => import("./forms/InventoryForm"), {
   loading: () => <Loader className="animate-spin" />,
@@ -34,6 +29,14 @@ const forms: {
       relatedData={relatedData}
     />
   ),
+  categories: (setOpen, type, data, relatedData) => (
+    <CategoriesForm
+      type={type}
+      data={data}
+      setOpen={setOpen}
+      relatedData={relatedData}
+    />
+  ),
 };
 
 const FormModal = ({
@@ -44,26 +47,40 @@ const FormModal = ({
   relatedData,
 }: FormContainerProps & { relatedData?: any }) => {
   const [open, setOpen] = useState(false);
+  const { deleteCategory } = useCategories();
+  const { deleteExistingItem } = useExistingItems();
+  console.log(data)
+
+  const deleteActionMap = {
+    categories: (id: string) => deleteCategory(id.toString()),
+    inventory: (id: string) => deleteExistingItem(id.toString()),
+  };
 
   const size = type === "create" ? "w-8 h-8" : "w-7 h-7";
   const bgColor =
     type === "create"
       ? "bg-[#FAE27C]"
       : type === "update"
-      ? "bg-green-500"
-      : "bg-red-500";
+      ? "bg-green-200"
+      : "bg-red-300";
 
   const Form = () => {
     return type === "delete" && id ? (
-      <form className="p-4 flex flex-col gap-4">
-        <input type="text | number" name="id" value={id} hidden />
+      <div className="p-4 flex flex-col gap-4">
         <span className="text-center font-medium">
-          All data will be lost. Are you sure you want to delete this {table}?
+          هل أنت متأكد من حذف هذا العنصر؟
         </span>
-        <button className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center">
-          Delete
+        <button
+          className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center cursor-pointer"
+          onClick={() =>
+            deleteActionMap[table as keyof typeof deleteActionMap](
+              id.toString()
+            )
+          }
+        >
+          حذف
         </button>
-      </form>
+      </div>
     ) : type === "create" || type === "update" ? (
       forms[table](setOpen, type, data, relatedData)
     ) : (
@@ -74,15 +91,15 @@ const FormModal = ({
   return (
     <>
       <button
-        className={`min-w-[40px] min-h-[40px] p-2 flex items-center justify-center rounded-full ${bgColor}`}
+        className={`${size} p-2 flex items-center justify-center cursor-pointer rounded-full ${bgColor}`}
         onClick={() => setOpen(true)}
       >
         {type === "create" ? (
           <Plus className="w-5 h-5 stroke-[2] shrink-0" />
         ) : type === "update" ? (
-          <SquarePen className="w-5 h-5 stroke-[2] shrink-0" />
+          <SquarePen className="w-4 h-4 stroke-[2] shrink-0" />
         ) : (
-          <Trash className="w-5 h-5 stroke-[2] shrink-0" />
+          <Trash className="w-4 h-4 stroke-[2] shrink-0" />
         )}
       </button>
 
