@@ -1,4 +1,5 @@
- import FormModal from "./FormModal";
+import { useExistingItems } from "@/hooks/useExistingItems";
+import FormModal from "./FormModal";
 import { useCategories } from "@/hooks/useCategories";
 
 export type FormContainerProps = {
@@ -16,11 +17,18 @@ const FormContainer = ({ table, type, data, id }: FormContainerProps) => {
         const { categories } = useCategories();
         relatedData = { categories };
         break;
+      case "expenses":
+        const { existingItems } = useExistingItems();
+        relatedData = { existingItems };
+        break;
+      case "loans":
+        const { existingItems: loansExistingItems } = useExistingItems();
+        relatedData = { existingItems: loansExistingItems };
+        break;
       default:
         break;
     }
   }
-  console.log(data)
   return (
     <div>
       <FormModal

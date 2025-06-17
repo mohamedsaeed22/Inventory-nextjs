@@ -8,6 +8,10 @@ import { FormContainerProps } from "./FormContainer";
 import CategoriesForm from "./forms/CategoriesForm";
 import { useCategories } from "@/hooks/useCategories";
 import { useExistingItems } from "@/hooks/useExistingItems";
+import ExpensesForm from "./forms/ExpensesForm";
+ import { useExpenses } from "@/hooks/useExpenses";
+import LoanForm from "./forms/LoanForm";
+import { useLoans } from "@/hooks/useLoans";
 
 const InventoryForm = dynamic(() => import("./forms/InventoryForm"), {
   loading: () => <Loader className="animate-spin" />,
@@ -37,6 +41,22 @@ const forms: {
       relatedData={relatedData}
     />
   ),
+  expenses: (setOpen, type, data, relatedData) => (
+    <ExpensesForm
+      type={type}
+      data={data}
+      setOpen={setOpen}
+      relatedData={relatedData}
+    />
+  ),
+  loans: (setOpen, type, data, relatedData) => (
+    <LoanForm
+      type={type}
+      data={data}
+      setOpen={setOpen}
+      relatedData={relatedData}
+    />
+  ),
 };
 
 const FormModal = ({
@@ -49,12 +69,14 @@ const FormModal = ({
   const [open, setOpen] = useState(false);
   const { deleteCategory } = useCategories();
   const { deleteExistingItem } = useExistingItems();
-  console.log(data)
-
+  const { deleteExpense } = useExpenses();
+  const { deleteLoan } = useLoans();
   const deleteActionMap = {
     categories: (id: string) => deleteCategory(id.toString()),
     inventory: (id: string) => deleteExistingItem(id.toString()),
-  };
+    expenses: (id: string) => deleteExpense(id.toString()),
+    loans: (id: string) => deleteLoan(id.toString()),
+    };  
 
   const size = type === "create" ? "w-8 h-8" : "w-7 h-7";
   const bgColor =

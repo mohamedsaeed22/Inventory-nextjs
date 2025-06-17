@@ -1,5 +1,4 @@
 import apiClient from ".";
-import { ExpenseSchema } from "../validations/formValidationSchemas";
  
 export async function getAllExpenses(
   searchTerm?: string,
@@ -18,7 +17,7 @@ export async function getAllExpenses(
   return { data, pagination: JSON.parse(pagination || "{}") };
 }
 
-export async function createExpense(data: ExpenseSchema) {
+export async function createExpense(data: FormData) {
   const response = await apiClient.post("/api/DispensedItems", data, {
     headers: {
       "Content-Type": "multipart/form-data",
@@ -27,7 +26,7 @@ export async function createExpense(data: ExpenseSchema) {
   return response?.data;
 }
 
-export async function updateExpense(id: string, data: ExpenseSchema) {
+export async function updateExpense(id: string, data: FormData) {
   const response = await apiClient.put(`/api/DispensedItems/${id}`, data, {
     headers: {
       "Content-Type": "multipart/form-data",
@@ -38,8 +37,7 @@ export async function updateExpense(id: string, data: ExpenseSchema) {
 
 export async function deleteExpense(id: string) {
   const response = await apiClient.delete(`/api/DispensedItems/${id}`);
-  console.log(response);
-  return response?.data;
+   return response?.data;
 }
 
 export async function getExpenseById(id: string) {

@@ -8,10 +8,13 @@ import { useRouter } from "next/navigation";
 import {
   existingItemSchema,
   ExistingItemSchema,
+  ExpenseSchema,
 } from "@/lib/validations/formValidationSchemas";
 import SelectField from "../SelectField";
 import { useExistingItems } from "@/hooks/useExistingItems";
 import { Category } from "@/types";
+import { useExpenses } from "@/hooks/useExpenses";
+import { createExistingItem, updateExistingItem } from "@/lib/api/existingItems";
 
 const InventoryForm = ({
   type,
@@ -35,7 +38,7 @@ const InventoryForm = ({
   });
   console.log(data);
   const { categories } = relatedData;
-  const { createExistingItem, updateExistingItem } = useExistingItems();
+  const { createExpense, updateExpense } = useExpenses();
   const onSubmit = handleSubmit((data) => {
     // create the form data
     const formData = new FormData();
@@ -47,7 +50,7 @@ const InventoryForm = ({
       formData.append("quantityEnum", data.quantityEnum);
       formData.append("sqId", data.sqId);
       formData.append("notes", data.notes || "");
-      createExistingItem(formData);
+      createExistingItem(formData as unknown as ExistingItemSchema);
       setOpen(false);
       router.refresh();
     } else {
@@ -58,7 +61,7 @@ const InventoryForm = ({
       formData.append("quantityEnum", data.quantityEnum);
       formData.append("sqId", data.sqId);
       formData.append("notes", data.notes || "");
-      updateExistingItem({ id: Number(data.id), existingItemData: formData });
+      updateExistingItem(data?.id?.toString() || "", formData as unknown as ExistingItemSchema);
       setOpen(false);
       router.refresh();
     }
@@ -108,6 +111,7 @@ const InventoryForm = ({
           defaultValue={data?.quantity}
           register={register}
           error={errors?.quantity}
+          type="number"
         />
 
         <SelectField

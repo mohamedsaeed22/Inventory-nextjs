@@ -48,3 +48,12 @@ export type Expense = {
   lastModifiedDate: string;
   isDeleted: boolean;
 };
+
+export type Loan = {
+  id: number;
+  createdDate: string;
+  name: string;
+  toWhom: string;
+  isReturned: boolean;
+  notes: string;
+};

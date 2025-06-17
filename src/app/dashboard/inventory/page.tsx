@@ -61,13 +61,13 @@ const Page = () => {
       key={item.id}
       className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-gray-100"
     >
-      <td className="py-3">{item.name}</td>
-      <td>{item.brand}</td>
-      <td>{item.serial}</td>
-      <td>{item.quantity}</td>
-      <td>{item.quantityEnum}</td>
-      <td>{item.notes}</td>
-      <td>
+      <td className="py-3 max-w-[100px]">{item.name}</td>
+      <td className="py-3 max-w-[100px]">{item.brand}</td>
+      <td className="py-3 max-w-[100px]">{item.serial}</td>
+      <td className="py-3 max-w-[100px]">{item.quantity}</td>
+      <td className="py-3 max-w-[100px]">{item.quantityEnum}</td>
+      <td className="py-3 max-w-[100px]">{item.notes || "-"}</td>
+      <td className="py-3 max-w-[100px] ">
         <div className="flex items-center gap-2">
           <FormContainer table="inventory" type="update" data={item} />
           <FormContainer table="inventory" type="delete" id={item.id} />

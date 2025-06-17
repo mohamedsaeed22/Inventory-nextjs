@@ -68,7 +68,7 @@ import { useExpenses } from "@/hooks/useExpenses";
 // get label at header and name at accessor
 const columns = [
   {
-    header: "اسم الصنف",
+    header: "اسم العهده",
     accessor: "name",
   },
   {
@@ -76,12 +76,16 @@ const columns = [
     accessor: "dispensedQuantity",
   },
   {
-    header: "اسم المستلم",
-    accessor: "receiverName",
+    header: " تاريخ الصرف",
+    accessor: "createdDate",
   },
   {
     header: "اسم المسلم",
     accessor: "deliveredName",
+  },
+  {
+    header: "اسم المستلم",
+    accessor: "receiverName",
   },
   {
     header: "جهة الاستلام",
@@ -103,8 +107,11 @@ const Page = () => {
   const searchTerm = searchParams.get("SearchTerm") || "";
   const pageNumber = searchParams.get("pageNumber") || 1;
   const pageSize = searchParams.get("pageSize") || 10;
-  const { expenses, isLoading, isError, error, pagination } =
-    useExpenses(searchTerm, Number(pageNumber), Number(pageSize));
+  const { expenses, isLoading, isError, error, pagination } = useExpenses(
+    searchTerm,
+    Number(pageNumber),
+    Number(pageSize)
+  );
 
   const renderRow = (item: Expense) => (
     <tr
@@ -113,8 +120,13 @@ const Page = () => {
     >
       <td className="py-3">{item.existingItem.name}</td>
       <td>{item.dispensedQuantity}</td>
-      <td>{item.receiverName}</td>
+      <td>
+        {item.createdDate
+          ? new Date(item.createdDate).toLocaleDateString()
+          : "-"}
+      </td>
       <td>{item.deliveredName}</td>
+      <td>{item.receiverName}</td>
       <td>{item.toWhom}</td>
       <td>{item.notes || "-"}</td>
       <td>
@@ -136,6 +148,7 @@ const Page = () => {
       </div>
     );
   }
+
   return (
     <div>
       <div className="flex items-center justify-between">
