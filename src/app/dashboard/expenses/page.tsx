@@ -8,64 +8,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Pagination from "@/components/Pagination";
 import { useExpenses } from "@/hooks/useExpenses";
 
-/**
-   <div className="flex flex-col ">
-              <h2 className="block text-sm font-medium text-gray-700 mb-2">
-                اختر العهدة
-              </h2>
-              <ReusableSelect
-                control={control}
-                name="existingItemId"
-                error={errors.existingItemId?.message}
-                options={options}
-                placeholder="اختر العهدة"
-              />
-            </div>
-            <ValidationInput<MyFormFields>
-              label="الكمية المصروفة"
-              name="dispensedQuantity"
-              register={register}
-              placeholder="ادخل الكمية"
-              type="number"
-              error={errors.dispensedQuantity?.message}
-            />
-            <ValidationInput<MyFormFields>
-              label="اسم المستلم"
-              name="receiverName"
-              register={register}
-              placeholder="ادخل اسم المستلم"
-              type="text"
-              error={errors.receiverName?.message}
-            />
-            <ValidationInput<MyFormFields>
-              label="اسم المسلم"
-              name="deliveredName"
-              register={register}
-              placeholder="ادخل اسم المسلم"
-              type="text"
-              error={errors.deliveredName?.message}
-            />
-          </div>
-          <ValidationInput<MyFormFields>
-            label="جهة الاستلام"
-            name="toWhom"
-            register={register}
-            placeholder="ادخل اسم  الجهة"
-            type="text"
-            error={errors.toWhom?.message}
-          />
-          <ValidationInput<MyFormFields>
-            label="ملاحظات"
-            name="notes"
-            register={register}
-            placeholder="ادخل جميع الملاحظات"
-            type="textarea"
-            error={errors.notes?.message}
-          />
-
- */
-
-// get label at header and name at accessor
 const columns = [
   {
     header: "اسم العهده",

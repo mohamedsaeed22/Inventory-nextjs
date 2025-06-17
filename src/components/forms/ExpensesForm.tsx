@@ -33,7 +33,6 @@ const ExpensesForm = ({
   } = useForm<ExpenseSchema>({
     resolver: zodResolver(expenseSchema),
   });
-  console.log(data);
   const { existingItems } = relatedData || {};
   const { createExpense, updateExpense } = useExpenses();
   const onSubmit = handleSubmit((data) => {
@@ -64,7 +63,7 @@ const ExpensesForm = ({
   return (
     <form className="flex flex-col gap-6" onSubmit={onSubmit}>
       <h1 className="text-xl font-semibold text-center">
-        {type === "create" ? "اضافة عهدة" : "تعديل العهدة"}
+        {type === "create" ? "اضافة مصروف" : "تعديل المصروف"}
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">

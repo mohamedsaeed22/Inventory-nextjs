@@ -8,13 +8,13 @@ import { useRouter } from "next/navigation";
 import {
   existingItemSchema,
   ExistingItemSchema,
-  ExpenseSchema,
 } from "@/lib/validations/formValidationSchemas";
 import SelectField from "../SelectField";
-import { useExistingItems } from "@/hooks/useExistingItems";
 import { Category } from "@/types";
-import { useExpenses } from "@/hooks/useExpenses";
-import { createExistingItem, updateExistingItem } from "@/lib/api/existingItems";
+import {
+  createExistingItem,
+  updateExistingItem,
+} from "@/lib/api/existingItems";
 
 const InventoryForm = ({
   type,
@@ -36,9 +36,7 @@ const InventoryForm = ({
   } = useForm<ExistingItemSchema>({
     resolver: zodResolver(existingItemSchema),
   });
-  console.log(data);
-  const { categories } = relatedData;
-  const { createExpense, updateExpense } = useExpenses();
+   const { categories } = relatedData;
   const onSubmit = handleSubmit((data) => {
     // create the form data
     const formData = new FormData();
@@ -61,7 +59,10 @@ const InventoryForm = ({
       formData.append("quantityEnum", data.quantityEnum);
       formData.append("sqId", data.sqId);
       formData.append("notes", data.notes || "");
-      updateExistingItem(data?.id?.toString() || "", formData as unknown as ExistingItemSchema);
+      updateExistingItem(
+        data?.id?.toString() || "",
+        formData as unknown as ExistingItemSchema
+      );
       setOpen(false);
       router.refresh();
     }

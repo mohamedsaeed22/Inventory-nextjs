@@ -19,13 +19,7 @@ export async function login(credentials: LoginCredentials) {
 
   const response = await apiClient.post<LoginResponse>(
     "/api/Users/login",
-    formData,
-    {
-      headers: {
-        // Remove Content-Type header to let the browser set it with the boundary
-        "Content-Type": "multipart/form-data",
-      },
-    }
+    formData
   );
   return response.data;
 }

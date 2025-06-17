@@ -29,7 +29,6 @@ export default function DashboardLayout({
     );
   }
 
-  // Only redirect if we're sure the user is not authenticated
   if (!isAuthenticated) {
     return null;
   }
@@ -38,11 +37,13 @@ export default function DashboardLayout({
     <div className="h-screen flex">
       {/* LEFT */}
       <div className="w-[14%] md:w-[8%] lg:w-[16%] xl:w-[14%] p-4">
+        {/*  */}
         <Image
           src="/foeLogo.png"
           alt="logo"
           width={100}
           height={100}
+          priority
           className="mx-auto"
         />
         <Sidebar />

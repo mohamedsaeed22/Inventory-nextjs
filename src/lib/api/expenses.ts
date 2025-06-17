@@ -18,29 +18,16 @@ export async function getAllExpenses(
 }
 
 export async function createExpense(data: FormData) {
-  const response = await apiClient.post("/api/DispensedItems", data, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const response = await apiClient.post("/api/DispensedItems", data);
   return response?.data;
 }
 
 export async function updateExpense(id: string, data: FormData) {
-  const response = await apiClient.put(`/api/DispensedItems/${id}`, data, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const response = await apiClient.put(`/api/DispensedItems/${id}`, data);
   return response?.data;
 }
 
 export async function deleteExpense(id: string) {
   const response = await apiClient.delete(`/api/DispensedItems/${id}`);
    return response?.data;
-}
-
-export async function getExpenseById(id: string) {
-  const response = await apiClient.get(`/api/DispensedItems/${id}`);
-  return response?.data;
 }

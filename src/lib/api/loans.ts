@@ -18,29 +18,16 @@ export async function getAllLoans(
 }
 
 export async function createLoan(data: FormData) {
-  const response = await apiClient.post("/api/BorrowedItems", data, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const response = await apiClient.post("/api/BorrowedItems", data);
   return response?.data;
 }
 
 export async function updateLoan(id: string, data: FormData) {
-  const response = await apiClient.put(`/api/BorrowedItems/${id}`, data, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const response = await apiClient.put(`/api/BorrowedItems/${id}`, data);
   return response?.data;
 }
 
 export async function deleteLoan(id: string) {
   const response = await apiClient.delete(`/api/BorrowedItems/${id}`);
-  return response?.data;
-}
-
-export async function getLoanById(id: string) {
-  const response = await apiClient.get(`/api/BorrowedItems/${id}`);
   return response?.data;
 }

@@ -11,11 +11,7 @@ import {
 } from "@/lib/validations/formValidationSchemas";
 import { useCategories } from "@/hooks/useCategories";
 import { Category } from "@/types";
-const defaultValues = {
-  name: "",
-  number: undefined,
-  id: undefined,
-};
+ 
 const CategoriesForm = ({
   type,
   data,

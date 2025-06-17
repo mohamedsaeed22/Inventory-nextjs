@@ -35,13 +35,12 @@ const CategoriesForm = ({
   const router = useRouter();
   const { createLoan, updateLoan } = useLoans();
   const { existingItems } = relatedData || {};
-  console.log(relatedData);
-  const onSubmit = handleSubmit((data) => {
+   const onSubmit = handleSubmit((data) => {
     const formData = new FormData();
     if (type === "create") {
       formData.append("toWhom", data.toWhom);
       formData.append("isReturned", data.isReturned.toString());
-      formData.append("notes", data.notes);
+      formData.append("notes", data.notes || "");
       formData.append("existingItemId", data.existingItemId);
       createLoan(formData);
       setOpen(false);
@@ -49,10 +48,10 @@ const CategoriesForm = ({
     } else {
       formData.append("toWhom", data.toWhom);
       formData.append("isReturned", data.isReturned.toString());
-      formData.append("notes", data.notes);
+      formData.append("notes", data.notes || "");
       formData.append("existingItemId", data.existingItemId);
       updateLoan({
-        id: data.id.toString(),
+        id: data.id?.toString() || "",
         loanData: formData,
       });
       setOpen(false);
