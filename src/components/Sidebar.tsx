@@ -15,7 +15,7 @@ const menuItems = [
   {
     title: "القائمة",
     items: [
-      { href: "/dashboard/home", label: "الصفحة الرئيسيه", icon: <Home className="w-5 h-5" /> },
+      { href: "/dashboard", label: "الصفحة الرئيسيه", icon: <Home className="w-5 h-5" /> },
       { href: "/dashboard/inventory", label: "العهدة", icon: <Boxes className="w-5 h-5" /> },
       { href: "/dashboard/expenses", label: "المصروف", icon: <Wallet className="w-5 h-5" /> },
       { href: "/dashboard/loans", label: "السلفة", icon: <HandCoins className="w-5 h-5" /> },
