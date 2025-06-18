@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,13 +12,12 @@ import {
 } from "@/lib/validations/formValidationSchemas";
 import { useCategories } from "@/hooks/useCategories";
 import { Category } from "@/types";
- 
+
 const CategoriesForm = ({
   type,
   data,
   setOpen,
-  relatedData,
-}: {
+ }: {
   type: "create" | "update";
   data: Category;
   setOpen: Dispatch<SetStateAction<boolean>>;

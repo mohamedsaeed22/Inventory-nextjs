@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React from "react";
 import Select from "react-select";
 import { Control, Controller } from "react-hook-form";

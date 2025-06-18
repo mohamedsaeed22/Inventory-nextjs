@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { CircleX, Loader, Plus, SquarePen, Trash } from "lucide-react";

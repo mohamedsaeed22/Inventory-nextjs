@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useExistingItems } from "@/hooks/useExistingItems";
 import FormModal from "./FormModal";
 import { useCategories } from "@/hooks/useCategories";

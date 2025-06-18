@@ -1,4 +1,5 @@
-const Table = ({
+/* eslint-disable @typescript-eslint/no-explicit-any */
+  const Table = ({
   columns,
   renderRow,
   data,

@@ -1,13 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, FieldValues } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import InputField from "../InputField";
 import { Dispatch, SetStateAction } from "react";
 import { useRouter } from "next/navigation";
-import {
-  loanSchema, 
- } from "@/lib/validations/formValidationSchemas";
+import { loanSchema, LoanSchema } from "@/lib/validations/formValidationSchemas";
 import { useLoans } from "@/hooks/useLoans";
 import { ExistingItem, Loan } from "@/types";
 import SelectField from "../SelectField";
@@ -34,7 +32,7 @@ const CategoriesForm = ({
   const router = useRouter();
   const { createLoan, updateLoan } = useLoans();
   const { existingItems } = relatedData || {};
-   const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit((data) => {
     const formData = new FormData();
     if (type === "create") {
       formData.append("toWhom", data.toWhom);
@@ -107,7 +105,9 @@ const CategoriesForm = ({
             { label: "لا", value: "false" },
           ]}
           placeholder="اختر هل تم العودة"
-          defaultValue={type === "update" ? data?.isReturned?.toString() : undefined}
+          defaultValue={
+            type === "update" ? data?.isReturned?.toString() : undefined
+          }
           error={errors?.isReturned?.message}
         />
 

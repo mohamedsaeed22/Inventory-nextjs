@@ -28,10 +28,10 @@ export function useLoans(
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["loans"] });
-      toast.success("تم إنشاء الس بنجاح");
+      toast.success("تم إنشاء السلفه بنجاح");
     },
     onError: (error: Error) => {
-      toast.error(error.message || "فشل إنشاء الس");
+      toast.error(error.message || "فشل إنشاء السلفه");
     },
   });
 
@@ -40,10 +40,10 @@ export function useLoans(
       updateLoan(id.toString(), loanData as unknown as FormData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["loans"] });
-      toast.success("تم تحديث السلف بنجاح");
+      toast.success("تم تحديث السلفه بنجاح");
     },
     onError: (error: Error) => {
-      toast.error(error.message || "فشل تحديث السلف");
+      toast.error(error.message || "فشل تحديث السلفه");
     },
   });
 
@@ -51,7 +51,7 @@ export function useLoans(
     mutationFn: (id: string) => deleteLoan(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["loans"] });
-      toast.success("تم حذف السلف بنجاح");
+      toast.success("تم حذف السلفه بنجاح");
     },
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: ["loans"] });
@@ -66,7 +66,7 @@ export function useLoans(
       return { previousLoans };
     },
     onError: (error: Error, variables, context) => {
-      toast.error(error.message || "فشل حذف السلف");
+      toast.error(error.message || "فشل حذف السلفه");
       if (context?.previousLoans) {
         queryClient.setQueryData(["loans"], context.previousLoans);
       }

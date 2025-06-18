@@ -56,4 +56,5 @@ export type Loan = {
   toWhom: string;
   isReturned: boolean;
   notes: string;
+  existingItemId: number;
 };
