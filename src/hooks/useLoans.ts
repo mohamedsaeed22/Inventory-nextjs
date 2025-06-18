@@ -28,10 +28,10 @@ export function useLoans(
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["loans"] });
-      toast.success("تم إنشاء السلف بنجاح");
+      toast.success("تم إنشاء الس بنجاح");
     },
     onError: (error: Error) => {
-      toast.error(error.message || "فشل إنشاء السلف");
+      toast.error(error.message || "فشل إنشاء الس");
     },
   });
 

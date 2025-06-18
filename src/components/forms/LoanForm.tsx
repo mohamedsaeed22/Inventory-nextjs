@@ -1,14 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, FieldValues } from "react-hook-form";
 import InputField from "../InputField";
 import { Dispatch, SetStateAction } from "react";
 import { useRouter } from "next/navigation";
 import {
-  loanSchema,
-  LoanSchema,
-} from "@/lib/validations/formValidationSchemas";
+  loanSchema, 
+ } from "@/lib/validations/formValidationSchemas";
 import { useLoans } from "@/hooks/useLoans";
 import { ExistingItem, Loan } from "@/types";
 import SelectField from "../SelectField";
@@ -22,7 +21,7 @@ const CategoriesForm = ({
   type: "create" | "update";
   data: Loan;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  relatedData?: any;
+  relatedData?: { existingItems: ExistingItem[] };
 }) => {
   const {
     register,
@@ -108,6 +107,7 @@ const CategoriesForm = ({
             { label: "لا", value: "false" },
           ]}
           placeholder="اختر هل تم العودة"
+          defaultValue={type === "update" ? data?.isReturned?.toString() : undefined}
           error={errors?.isReturned?.message}
         />
 

@@ -62,7 +62,7 @@ const Sidebar = () => {
           <span className="hidden lg:block text-gray-400 font-light my-4">
             {section.title}
           </span>
-          {section.items.map((item: any) => {
+          {section.items.map((item: { href: string; label: string; icon: React.ReactNode; onClick?: () => void }) => {
             const isActive = pathname === item.href;
             return (
               <Link

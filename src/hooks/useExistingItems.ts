@@ -6,7 +6,7 @@ import {
   getAllExistingItems,
   updateExistingItem,
 } from "@/lib/api/existingItems";
-import { ExistingItemSchema } from "@/lib/validations/formValidationSchemas";
+
 import { ExistingItem } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
@@ -25,13 +25,11 @@ export function useExistingItems(
 
   const createExistingItemMutation = useMutation({
     mutationFn: (existingItemData: FormData) => {
-      return createExistingItem(
-        existingItemData as unknown as ExistingItemSchema
-      );
+      return createExistingItem(existingItemData);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["existingItems"] });
-      toast.success("تم إنشاء العهدة بنجاح"); 
+      toast.success("تم إنشاء العهدة بنجاح");
     },
     onError: (error: Error) => {
       toast.error(error.message || "فشل إنشاء العهدة");
@@ -43,9 +41,9 @@ export function useExistingItems(
       id,
       existingItemData,
     }: {
-      id: number;
+      id: string;
       existingItemData: FormData;
-    }) => updateExistingItem(id.toString(), existingItemData as unknown as ExistingItemSchema),
+    }) => updateExistingItem(id.toString(), existingItemData as unknown as FormData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["existingItems"] });
       toast.success("تم تحديث العهدة بنجاح");

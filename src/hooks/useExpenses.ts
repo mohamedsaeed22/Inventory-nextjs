@@ -40,10 +40,10 @@ export function useExpenses(
       updateExpense(id.toString(), expenseData as unknown as FormData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["expenses"] });
-      toast.success("تم تحديث العهدة بنجاح");
+      toast.success("تم تحديث المصروف بنجاح");
     },
     onError: (error: Error) => {
-      toast.error(error.message || "فشل تحديث العهدة");
+      toast.error(error.message || "فشل تحديث المصروف");
     },
   });
 
@@ -68,7 +68,7 @@ export function useExpenses(
       return { previousExpenses };
     },
     onError: (error: Error, variables, context) => {
-      toast.error(error.message || "فشل حذف العهدة");
+      toast.error(error.message || "فشل حذف المصروف");
       if (context?.previousExpenses) {
         queryClient.setQueryData(["expenses"], context.previousExpenses);
       }

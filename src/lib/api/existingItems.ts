@@ -1,6 +1,5 @@
 import apiClient from ".";
-import { ExistingItemSchema } from "../validations/formValidationSchemas";
-
+ 
 export async function getAllExistingItems(
   searchTerm?: string,
   pageNumber?: number,
@@ -18,12 +17,12 @@ export async function getAllExistingItems(
   return { data, pagination: JSON.parse(pagination || "{}") };
 }
 
-export async function createExistingItem(data: ExistingItemSchema) {
+export async function createExistingItem(data: FormData) {
   const response = await apiClient.post("/api/ExistingItems", data);
   return response?.data;
 }
 
-export async function updateExistingItem(id: string, data: ExistingItemSchema) {
+export async function updateExistingItem(id: string, data: FormData) {
   const response = await apiClient.put(`/api/ExistingItems/${id}`, data);
   return response?.data;
 }

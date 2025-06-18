@@ -102,6 +102,8 @@ const Page = () => {
       ) : (
         <Table columns={columns} renderRow={renderRow} data={existingItems} />
       )}
+      {/* if array is empty remove the pagination */}
+      {existingItems.length > 0 && (
       <Pagination
         page={Number(pageNumber)}
         count={pagination?.TotalRecords || 0}
@@ -111,6 +113,7 @@ const Page = () => {
           );
         }}
       />
+      )}
     </div>
   );
 };

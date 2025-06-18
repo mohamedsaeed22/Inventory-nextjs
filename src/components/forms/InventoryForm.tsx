@@ -11,10 +11,7 @@ import {
 } from "@/lib/validations/formValidationSchemas";
 import SelectField from "../SelectField";
 import { Category } from "@/types";
-import {
-  createExistingItem,
-  updateExistingItem,
-} from "@/lib/api/existingItems";
+import { useExistingItems } from "@/hooks/useExistingItems";
 
 const InventoryForm = ({
   type,
@@ -36,7 +33,8 @@ const InventoryForm = ({
   } = useForm<ExistingItemSchema>({
     resolver: zodResolver(existingItemSchema),
   });
-   const { categories } = relatedData;
+  const { categories } = relatedData;
+  const { createExistingItem, updateExistingItem } = useExistingItems();
   const onSubmit = handleSubmit((data) => {
     // create the form data
     const formData = new FormData();
@@ -48,7 +46,7 @@ const InventoryForm = ({
       formData.append("quantityEnum", data.quantityEnum);
       formData.append("sqId", data.sqId);
       formData.append("notes", data.notes || "");
-      createExistingItem(formData as unknown as ExistingItemSchema);
+      createExistingItem(formData);
       setOpen(false);
       router.refresh();
     } else {
@@ -59,10 +57,10 @@ const InventoryForm = ({
       formData.append("quantityEnum", data.quantityEnum);
       formData.append("sqId", data.sqId);
       formData.append("notes", data.notes || "");
-      updateExistingItem(
-        data?.id?.toString() || "",
-        formData as unknown as ExistingItemSchema
-      );
+      updateExistingItem({
+        id: data?.id?.toString() || "",
+        existingItemData: formData,
+      });
       setOpen(false);
       router.refresh();
     }

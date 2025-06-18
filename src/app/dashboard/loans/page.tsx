@@ -97,15 +97,18 @@ const Page = () => {
       ) : (
         <Table columns={columns} renderRow={renderRow} data={loans} />
       )}
-      <Pagination
-        page={Number(pageNumber)}
-        count={pagination?.TotalRecords || 0}
-        onChange={(page) => {
-          router.push(
-            `/dashboard/loans?pageNumber=${page}&pageSize=${pageSize}&SearchTerm=${searchTerm}`
-          );
-        }}
-      />
+      {/* if array is empty remove the pagination */}
+      {loans.length > 0 && (
+        <Pagination
+          page={Number(pageNumber)}
+          count={pagination?.TotalRecords || 0}
+          onChange={(page) => {
+            router.push(
+              `/dashboard/loans?pageNumber=${page}&pageSize=${pageSize}&SearchTerm=${searchTerm}`
+            );
+          }}
+        />
+      )}
     </div>
   );
 };

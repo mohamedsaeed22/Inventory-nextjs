@@ -10,20 +10,20 @@ export type FormContainerProps = {
 };
 
 const FormContainer = ({ table, type, data, id }: FormContainerProps) => {
+  const { categories } = useCategories();
+  const { existingItems } = useExistingItems();
   let relatedData: any = {};
+
   if (type !== "delete") {
     switch (table) {
       case "inventory":
-        const { categories } = useCategories();
         relatedData = { categories };
         break;
       case "expenses":
-        const { existingItems } = useExistingItems();
         relatedData = { existingItems };
         break;
       case "loans":
-        const { existingItems: loansExistingItems } = useExistingItems();
-        relatedData = { existingItems: loansExistingItems };
+        relatedData = { existingItems };
         break;
       default:
         break;

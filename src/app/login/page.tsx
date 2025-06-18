@@ -32,30 +32,13 @@ export default function LoginPage() {
     setError("");
     try {
       await loginMutation.mutateAsync(data);
-    } catch (error) {
-      setError("اسم المستخدم أو كلمة المرور غير صحيحة");
+    } catch (error: any) {
+      setError(error.message || "اسم المستخدم أو كلمة المرور غير صحيحة");
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-      {/* Left side - Image */}
-      <div className="hidden md:flex md:w-1/2 bg-indigo-600 relative">
-        <div className="absolute inset-0 bg-black/30 z-10" />
-        <Image
-          src="/inventory-img.jpg" // Add your image to the public folder
-          alt="Login"
-          fill
-          className="object-cover"
-          priority
-        />
-        {/* <div className="relative z-20 flex items-center justify-center w-full h-full">
-          <h1 className="text-4xl font-bold text-white text-center px-8">
-            مرحباً بك في نظام إدارة المخزون
-          </h1>
-        </div> */}
-      </div>
-
       {/* Right side - Login Form */}
       <div className="w-full md:w-1/2 flex items-center justify-center p-8 bg-gray-50">
         <div className="w-full max-w-md space-y-8">
@@ -110,6 +93,30 @@ export default function LoginPage() {
           </form>
         </div>
       </div>
+      {/* Left side - Image */}
+      <div className="hidden md:flex md:w-1/2 bg-indigo-600 relative">
+        <div className="absolute inset-0 bg-black/30 z-10" />
+        <Image
+          src="/inventory-img.jpg" // Add your image to the public folder
+          alt="Login"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="relative z-20 flex items-center justify-center w-full h-full">
+          <h1 className="text-4xl font-bold text-white text-center px-8">
+            مرحباً بك في مخزن فرع نظم المعلومات
+          </h1>
+        </div>
+      </div>
+
+      {/* Footer */}
+      {/* <footer className="absolute bottom-0 w-full bg-gray-800 p-4 text-center">
+        <p className="text-sm text-gray-100">
+          تم التطوير بواسطه فرع نظم المعلومات 2025
+        </p>
+      </footer> */}
+      
     </div>
   );
 }

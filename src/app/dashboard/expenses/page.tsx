@@ -107,6 +107,8 @@ const Page = () => {
       ) : (
         <Table columns={columns} renderRow={renderRow} data={expenses} />
       )}
+      {/* if array is empty remove the pagination */}
+      {expenses.length > 0 && (
       <Pagination
         page={Number(pageNumber)}
         count={pagination?.TotalRecords || 0}
@@ -114,8 +116,9 @@ const Page = () => {
           router.push(
             `/dashboard/expenses?pageNumber=${page}&pageSize=${pageSize}&SearchTerm=${searchTerm}`
           );
-        }}
-      />
+          }}
+        />
+      )}
     </div>
   );
 };

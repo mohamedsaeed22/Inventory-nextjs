@@ -22,6 +22,8 @@ export function useCategories(
     queryFn: () => getAllCategories(searchTerm, pageNumber, pageSize),
   });
 
+
+
   const createCategoryMutation = useMutation({
     mutationFn: (categoryData: FormData) => createCategory(categoryData),
     onSuccess: () => {
