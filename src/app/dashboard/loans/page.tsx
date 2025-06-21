@@ -102,9 +102,10 @@ const Page = () => {
         <Pagination
           page={Number(pageNumber)}
           count={pagination?.TotalRecords || 0}
+          pagination={pagination}
           onChange={(page) => {
             router.push(
-              `/dashboard/loans?pageNumber=${page}&pageSize=${pageSize}&SearchTerm=${searchTerm}`
+              `/dashboard/loans?pageNumber=${page}&SearchTerm=${searchTerm}`
             );
           }}
         />

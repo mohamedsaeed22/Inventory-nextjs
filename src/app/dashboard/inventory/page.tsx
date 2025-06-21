@@ -104,15 +104,15 @@ const Page = () => {
       )}
       {/* if array is empty remove the pagination */}
       {existingItems.length > 0 && (
-      <Pagination
-        page={Number(pageNumber)}
-        count={pagination?.TotalRecords || 0}
-        onChange={(page) => {
-          router.push(
-            `/dashboard/inventory?pageNumber=${page}&pageSize=${pageSize}&SearchTerm=${searchTerm}`
-          );
-        }}
-      />
+        <Pagination
+          page={Number(pageNumber)}
+          count={pagination?.TotalRecords || 0}
+          onChange={(page) => {
+            router.push(
+              `/dashboard/inventory?pageNumber=${page}&SearchTerm=${searchTerm}`
+            );
+          }}
+        />
       )}
     </div>
   );

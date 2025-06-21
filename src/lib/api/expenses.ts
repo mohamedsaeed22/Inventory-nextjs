@@ -1,5 +1,5 @@
 import apiClient from ".";
- 
+
 export async function getAllExpenses(
   searchTerm?: string,
   pageNumber?: number,
@@ -29,5 +29,5 @@ export async function updateExpense(id: string, data: FormData) {
 
 export async function deleteExpense(id: string) {
   const response = await apiClient.delete(`/api/DispensedItems/${id}`);
-   return response?.data;
+  return response?.data;
 }
