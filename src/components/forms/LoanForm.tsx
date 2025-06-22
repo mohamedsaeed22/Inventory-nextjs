@@ -5,10 +5,14 @@ import { useForm } from "react-hook-form";
 import InputField from "../InputField";
 import { Dispatch, SetStateAction } from "react";
 import { useRouter } from "next/navigation";
-import { loanSchema, LoanSchema } from "@/lib/validations/formValidationSchemas";
+import {
+  loanSchema,
+  LoanSchema,
+} from "@/lib/validations/formValidationSchemas";
 import { useLoans } from "@/hooks/useLoans";
 import { ExistingItem, Loan } from "@/types";
 import SelectField from "../SelectField";
+import { getAllExistingItems } from "@/lib/api/existingItems";
 
 const CategoriesForm = ({
   type,
@@ -31,7 +35,6 @@ const CategoriesForm = ({
   });
   const router = useRouter();
   const { createLoan, updateLoan } = useLoans();
-  const { existingItems } = relatedData || {};
   const onSubmit = handleSubmit((data) => {
     const formData = new FormData();
     if (type === "create") {
@@ -77,17 +80,20 @@ const CategoriesForm = ({
           label="العهدة"
           name="existingItemId"
           control={control}
-          options={
-            existingItems?.map((existingItem: ExistingItem) => ({
-              label: existingItem.name,
-              value: existingItem.id.toString(),
-            })) || []
-          }
           placeholder="اختر العهدة"
           error={errors?.existingItemId?.message}
           defaultValue={
             type === "update" ? data?.existingItemId?.toString() : undefined
           }
+          isAsync={true}
+          asyncOptions={{
+            queryKey: ["existingItems"],
+            queryFn: getAllExistingItems,
+            dataMapper: (existingItem: any) => ({
+              label: existingItem.name,
+              value: existingItem.id.toString(),
+            }),
+          }}
         />
         <InputField
           label="اسم المسلم له"

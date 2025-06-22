@@ -10,8 +10,8 @@ import {
   ExistingItemSchema,
 } from "@/lib/validations/formValidationSchemas";
 import SelectField from "../SelectField";
-import { Category } from "@/types";
-import { useExistingItems } from "@/hooks/useExistingItems";
+ import { useExistingItems } from "@/hooks/useExistingItems";
+import { getAllCategories } from "@/lib/api/categories";
 
 const InventoryForm = ({
   type,
@@ -33,7 +33,6 @@ const InventoryForm = ({
   } = useForm<ExistingItemSchema>({
     resolver: zodResolver(existingItemSchema),
   });
-  const { categories } = relatedData;
   const { createExistingItem, updateExistingItem } = useExistingItems();
   const onSubmit = handleSubmit((data) => {
     // create the form data
@@ -129,15 +128,18 @@ const InventoryForm = ({
           label="الصنف"
           name="sqId"
           control={control}
-          options={
-            categories?.map((category: Category) => ({
-              label: category.name,
-              value: category.id.toString(),
-            })) || []
-          }
           placeholder="اختر الصنف"
           error={errors?.sqId?.message}
           defaultValue={type === "update" ? data?.sqId?.toString() : undefined}
+          isAsync={true}
+          asyncOptions={{
+            queryKey: ["categories"],
+            queryFn: getAllCategories,
+            dataMapper: (category: any) => ({
+              label: category.name,
+              value: category.id.toString(),
+            }),
+          }}
         />
       </div>
       <InputField

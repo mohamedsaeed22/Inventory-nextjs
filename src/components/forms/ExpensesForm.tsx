@@ -11,8 +11,9 @@ import {
   ExpenseSchema,
 } from "@/lib/validations/formValidationSchemas";
 import SelectField from "../SelectField";
-import { ExistingItem, Expense } from "@/types";
+import {  Expense } from "@/types";
 import { useExpenses } from "@/hooks/useExpenses";
+import { getAllExistingItems } from "@/lib/api/existingItems";
 
 const ExpensesForm = ({
   type,
@@ -34,7 +35,6 @@ const ExpensesForm = ({
   } = useForm<ExpenseSchema>({
     resolver: zodResolver(expenseSchema),
   });
-  const { existingItems } = relatedData || {};
   const { createExpense, updateExpense } = useExpenses();
   const onSubmit = handleSubmit((data) => {
     const formData = new FormData();
@@ -82,17 +82,20 @@ const ExpensesForm = ({
           label="العهدة"
           name="existingItemId"
           control={control}
-          options={
-            existingItems?.map((existingItem: ExistingItem) => ({
-              label: existingItem.name,
-              value: existingItem.id.toString(),
-            })) || []
-          }
           placeholder="اختر العهدة"
           error={errors?.existingItemId?.message}
           defaultValue={
             type === "update" ? data?.existingItemId?.toString() : undefined
           }
+          isAsync={true}
+          asyncOptions={{
+            queryKey: ["existingItems"],
+            queryFn: getAllExistingItems,
+            dataMapper: (existingItem: any) => ({
+              label: existingItem.name,
+              value: existingItem.id.toString(),
+            }),
+          }}
         />
 
         <InputField
