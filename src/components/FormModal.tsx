@@ -13,6 +13,7 @@ import ExpensesForm from "./forms/ExpensesForm";
 import { useExpenses } from "@/hooks/useExpenses";
 import LoanForm from "./forms/LoanForm";
 import { useLoans } from "@/hooks/useLoans";
+import ConfirmDialog from "./ConfirmDialog";
 
 const InventoryForm = dynamic(() => import("./forms/InventoryForm"), {
   loading: () => <Loader className="animate-spin" />,
@@ -41,6 +42,7 @@ const forms: {
 
 const FormModal = ({ table, type, data, id }: FormContainerProps) => {
   const [open, setOpen] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const { deleteCategory } = useCategories();
   const { deleteExistingItem } = useExistingItems();
   const { deleteExpense } = useExpenses();
@@ -60,35 +62,39 @@ const FormModal = ({ table, type, data, id }: FormContainerProps) => {
       ? "bg-green-200"
       : "bg-red-300";
 
+  const handleDelete = () => {
+    if (id) {
+      deleteActionMap[table as keyof typeof deleteActionMap](id.toString());
+    }
+  };
+
+  const getTableName = (table: string) => {
+    const tableNames: { [key: string]: string } = {
+      inventory: "العهد",
+      categories: "الاصناف",
+      expenses: "المصروفات",
+      loans: "السلف",
+    };
+    return tableNames[table] || table;
+  };
+
   const Form = () => {
-    return type === "delete" && id ? (
-      <div className="p-4 flex flex-col gap-4">
-        <span className="text-center font-medium">
-          هل أنت متأكد من حذف هذا العنصر؟
-        </span>
-        <button
-          className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center cursor-pointer"
-          onClick={() =>
-            deleteActionMap[table as keyof typeof deleteActionMap](
-              id.toString()
-            )
-          }
-        >
-          حذف
-        </button>
-      </div>
-    ) : type === "create" || type === "update" ? (
-      forms[table](setOpen, type, data)
-    ) : (
-      "Form not found!"
-    );
+    return type === "create" || type === "update"
+      ? forms[table](setOpen, type, data)
+      : "Form not found!";
   };
 
   return (
     <>
       <button
         className={`${size} p-2 flex items-center justify-center cursor-pointer rounded-full ${bgColor}`}
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          if (type === "delete") {
+            setShowDeleteDialog(true);
+          } else {
+            setOpen(true);
+          }
+        }}
       >
         {type === "create" ? (
           <Plus className="w-5 h-5 stroke-[2] shrink-0" />
@@ -112,6 +118,16 @@ const FormModal = ({ table, type, data, id }: FormContainerProps) => {
           </div>
         </div>
       )}
+
+      <ConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={() => setShowDeleteDialog(false)}
+        onConfirm={handleDelete}
+        title="تأكيد الحذف"
+        message={`هل أنت متأكد من حذف هذا العنصر من ${getTableName(table)}؟`}
+        confirmText="حذف"
+        cancelText="إلغاء"
+      />
     </>
   );
 };

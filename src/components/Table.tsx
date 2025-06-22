@@ -13,7 +13,7 @@ const Table = ({
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <tr className="bg-gray-100 border-b border-gray-200">
               {columns.map((col) => (
                 <th 
                   key={col.accessor} 
