@@ -42,18 +42,28 @@ const SelectField: React.FC<Props> = ({
   isAsync = false,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [page, setPage] = useState(1);
   const [allOptions, setAllOptions] = useState<Option[]>([]);
 
-  // Reset state when search term changes
+  // Debounce effect - 200ms delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 200);
+
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
+  // Reset state when debounced search term changes
   useEffect(() => {
     setPage(1);
     setAllOptions([]);
-  }, [searchTerm]);
+  }, [debouncedSearchTerm]);
 
   const { data: asyncData, isLoading } = useQuery({
-    queryKey: [...(asyncOptions?.queryKey || []), searchTerm, page],
-    queryFn: () => asyncOptions?.queryFn(searchTerm, page, 50),
+    queryKey: [...(asyncOptions?.queryKey || []), debouncedSearchTerm, page],
+    queryFn: () => asyncOptions?.queryFn(debouncedSearchTerm, page, 50),
     enabled: isAsync && !!asyncOptions,
   });
 
