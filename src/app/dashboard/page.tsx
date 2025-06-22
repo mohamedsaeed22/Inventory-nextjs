@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React from "react";
@@ -129,51 +130,60 @@ const LowStockAlerts = ({ items }: { items: any[] }) => (
 );
 
 const DashboardPage = () => {
-  const { existingItems, isLoading: itemsLoading } = useExistingItems();
-  const { categories, isLoading: categoriesLoading } = useCategories();
-  const { expenses, isLoading: expensesLoading } = useExpenses();
-  const { loans, isLoading: loansLoading } = useLoans();
+  const { existingItems, isLoading: itemsLoading } = useExistingItems(
+    "",
+    1,
+    100
+  );
+  const { categories, isLoading: categoriesLoading } = useCategories(
+    "",
+    1,
+    100
+  );
+  const { expenses, isLoading: expensesLoading } = useExpenses("", 1, 100);
+  const { loans, isLoading: loansLoading } = useLoans("", 1, 100);
 
   // Calculate statistics
   const totalItems = existingItems.length;
   const totalCategories = categories.length;
   const totalExpenses = expenses.length;
   const totalLoans = loans.length;
-  const returnedLoans = loans.filter((loan) => loan.isReturned).length;
+  const returnedLoans = loans.filter((loan: any) => loan.isReturned).length;
   const pendingLoans = totalLoans - returnedLoans;
 
   // Low stock items (quantity less than 10)
-  const lowStockItems = existingItems.filter((item) => item.quantity < 10);
+  const lowStockItems = existingItems.filter((item: any) => item.quantity < 10);
 
   // Recent activities (combine recent expenses and loans)
   const recentActivities = [
-    ...expenses.slice(0, 3).map((expense) => ({
+    ...expenses.slice(0, 3).map((expense: any) => ({
       title: `تم صرف ${expense.dispensedQuantity} من ${
         expense.existingItem?.name || "غير محدد"
       }`,
-      date: new Date(expense.createdDate).toLocaleDateString("ar-SA"),
+      date: new Date(expense.createdDate).toLocaleDateString(),
       type: "expense",
     })),
-    ...loans.slice(0, 3).map((loan) => ({
-      title: `تم إعارة ${loan.name} إلى ${loan.toWhom}`,
-      date: new Date(loan.createdDate).toLocaleDateString("ar-SA"),
+    ...loans.slice(0, 3).map((loan: any) => ({
+      title: `تم ارجاع${loan.name} إلى ${loan.toWhom}`,
+      date: new Date(loan.createdDate).toLocaleDateString(),
       type: "loan",
     })),
   ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   // Category distribution data
   const categoryDistribution = categories
-    .map((category) => ({
+    .map((category: any) => ({
       label: category.name,
-      value: existingItems.filter((item) => item.sq === category.number).length,
+      value: existingItems.filter((item: any) => item.sq === category.number)
+        .length,
       color: "bg-blue-500",
     }))
-    .filter((item) => item.value > 0);
+    .filter((item: any) => item.value > 0);
 
   // Loan status data
   const loanStatusData = [
     { label: "تم الإرجاع", value: returnedLoans, color: "bg-green-500" },
-    { label: "قيد الإعارة", value: pendingLoans, color: "bg-yellow-500" },
+    { label: "لم يتم الإرجاع", value: pendingLoans, color: "bg-yellow-500" },
   ];
 
   return (
@@ -182,7 +192,7 @@ const DashboardPage = () => {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">لوحة التحكم</h1>
         <div className="text-sm text-gray-500">
-          آخر تحديث: {new Date().toLocaleDateString("ar-SA")}
+          آخر تحديث: {new Date().toLocaleDateString()}
         </div>
       </div>
 
@@ -246,43 +256,85 @@ const DashboardPage = () => {
 
           {/* Quick Stats */}
           <div className="bg-white rounded-lg p-6 shadow-sm">
-            <h3 className="text-lg font-semibold mb-4 text-gray-800">
+            <h3 className="text-lg font-semibold mb-6 text-gray-800 flex items-center">
+              <TrendingUp className="w-5 h-5 text-blue-500 mr-2" />
               إحصائيات سريعة
             </h3>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">
-                  إجمالي الكمية في المخزن
-                </span>
-                <span className="font-medium">
-                  {existingItems.reduce((sum, item) => sum + item.quantity, 0)}
-                </span>
+            <div className="space-y-6">
+              <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-100">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                    <Boxes className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">
+                      إجمالي الكمية في المخزن
+                    </p>
+                    <p className="text-lg font-bold text-gray-900">
+                      {existingItems.reduce(
+                        (sum: any, item: any) => sum + item.quantity,
+                        0
+                      )}
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded-full">
+                    إجمالي
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">
-                  متوسط الكمية لكل عهدة
-                </span>
-                <span className="font-medium">
-                  {totalItems > 0
-                    ? Math.round(
-                        existingItems.reduce(
-                          (sum, item) => sum + item.quantity,
-                          0
-                        ) / totalItems
-                      )
-                    : 0}
-                </span>
+
+              <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-100">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                    <div className="w-5 h-5 text-green-600 text-center font-bold">
+                      Ø
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">
+                      متوسط الكمية لكل عهدة
+                    </p>
+                    <p className="text-lg font-bold text-gray-900">
+                      {totalItems > 0
+                        ? Math.round(
+                            existingItems.reduce(
+                              (sum: any, item: any) => sum + item.quantity,
+                              0
+                            ) / totalItems
+                          )
+                        : 0}
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">
+                    متوسط
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">
-                  نسبة السلف المرجعة
-                </span>
-                <span className="font-medium">
-                  {totalLoans > 0
-                    ? Math.round((returnedLoans / totalLoans) * 100)
-                    : 0}
-                  %
-                </span>
+
+              <div className="flex items-center justify-between p-4 bg-purple-50 rounded-lg border border-purple-100">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-3">
+                    <HandCoins className="w-5 h-5 text-purple-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">نسبة السلف المرجعة</p>
+                    <p className="text-lg font-bold text-gray-900">
+                      {totalLoans > 0
+                        ? Math.round((returnedLoans / totalLoans) * 100)
+                        : 0}
+                      %
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-xs text-purple-600 bg-purple-100 px-2 py-1 rounded-full">
+                    نسبة
+                  </div>
+                </div>
               </div>
             </div>
           </div>
