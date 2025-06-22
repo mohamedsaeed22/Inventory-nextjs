@@ -38,19 +38,31 @@ const Page = () => {
   );
 
   const renderRow = (item: Category) => (
-    <tr
-      key={item.id}
-      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-gray-100"
-    >
-      <td className="py-3">{item.name}</td>
-      <td>{item.number}</td>
-      <td>
-        <div className="flex items-center gap-2">
+    <>
+      <td className="px-6 py-4 text-sm text-gray-900 font-medium">
+        <div className="flex items-center">
+          {/* <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+            <span className="text-green-600 text-xs font-semibold">
+              {item.name.charAt(0).toUpperCase()}
+            </span>
+          </div> */}
+          <span className="truncate max-w-[120px]" title={item.name}>
+            {item.name}
+          </span>
+        </div>
+      </td>
+      <td className="px-6 py-4 text-sm text-gray-700 font-mono">
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+          {item.number}
+        </span>
+      </td>
+      <td className="px-6 py-4 text-sm text-gray-700">
+        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
           <FormContainer table="categories" type="update" data={item} />
           <FormContainer table="categories" type="delete" id={item.id} />
         </div>
       </td>
-    </tr>
+    </>
   );
 
   if (isError) {

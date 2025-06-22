@@ -351,8 +351,7 @@ const DashboardPage = () => {
 
   // Low stock items (quantity less than 10)
   const lowStockItems = existingItems.filter((item: any) => item.quantity < 10);
-  console.log(lowStockItems);
-  // Recent activities (combine recent expenses and loans)
+   // Recent activities (combine recent expenses and loans)
   const recentActivities = [
     ...expenses.slice(0, 3).map((expense: any) => ({
       title: `تم صرف ${expense.dispensedQuantity} من ${

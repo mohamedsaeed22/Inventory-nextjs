@@ -56,28 +56,50 @@ const Page = () => {
   );
 
   const renderRow = (item: Expense) => (
-    <tr
-      key={item.id}
-      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-gray-100"
-    >
-      <td className="py-3">{item.existingItem.name}</td>
-      <td>{item.dispensedQuantity}</td>
-      <td>
+    <>
+      <td className="px-6 py-4 text-sm text-gray-900 font-medium">
+        <div className="flex items-center">
+          <span
+            className="truncate max-w-[120px]"
+            title={item.existingItem.name}
+          >
+            {item.existingItem.name}
+          </span>
+        </div>
+      </td>
+      <td className="px-6 py-4 text-sm text-gray-900 font-semibold">
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+          {item.dispensedQuantity}
+        </span>
+      </td>
+      <td className="px-6 py-4 text-sm text-gray-700">
         {item.createdDate
           ? new Date(item.createdDate).toLocaleDateString()
           : "-"}
       </td>
-      <td>{item.deliveredName}</td>
-      <td>{item.receiverName}</td>
-      <td>{item.toWhom}</td>
-      <td>{item.notes || "-"}</td>
-      <td>
-        <div className="flex items-center gap-2">
+      <td className="px-6 py-4 text-sm text-gray-700">
+        <span className="font-medium">{item.deliveredName}</span>
+      </td>
+      <td className="px-6 py-4 text-sm text-gray-700">
+        <span className="font-medium">{item.receiverName}</span>
+      </td>
+      <td className="px-6 py-4 text-sm text-gray-600">
+        <span className="truncate max-w-[100px]" title={item.toWhom}>
+          {item.toWhom}
+        </span>
+      </td>
+      <td className="px-6 py-4 text-sm text-gray-600">
+        <span className="truncate max-w-[150px]" title={item.notes || "-"}>
+          {item.notes || "-"}
+        </span>
+      </td>
+      <td className="px-6 py-4 text-sm text-gray-700">
+        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
           <FormContainer table="expenses" type="update" data={item} />
           <FormContainer table="expenses" type="delete" id={item.id} />
         </div>
       </td>
-    </tr>
+    </>
   );
 
   if (isError) {

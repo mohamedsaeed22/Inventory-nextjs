@@ -57,23 +57,38 @@ const Page = () => {
     useExistingItems(searchTerm, Number(pageNumber), Number(pageSize));
 
   const renderRow = (item: ExistingItem) => (
-    <tr
-      key={item.id}
-      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-gray-100"
-    >
-      <td className="py-3 max-w-[100px]">{item.name}</td>
-      <td className="py-3 max-w-[100px]">{item.brand}</td>
-      <td className="py-3 max-w-[100px]">{item.serial}</td>
-      <td className="py-3 max-w-[100px]">{item.quantity}</td>
-      <td className="py-3 max-w-[100px]">{item.quantityEnum}</td>
-      <td className="py-3 max-w-[100px]">{item.notes || "-"}</td>
-      <td className="py-3 max-w-[100px] ">
-        <div className="flex items-center gap-2">
+    <>
+      <td className="px-6 py-4 text-sm text-gray-900 font-medium">
+        <div className="flex items-center">
+          <span className="truncate max-w-[120px]" title={item.name}>
+            {item.name}
+          </span>
+        </div>
+      </td>
+      <td className="px-6 py-4 text-sm text-gray-700">
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+          {item.brand}
+        </span>
+      </td>
+      <td className="px-6 py-4 text-sm text-gray-700 font-mono">
+        {item.serial}
+      </td>
+      <td className="px-6 py-4 text-sm text-gray-900 font-semibold">
+        {item.quantity}
+      </td>
+      <td className="px-6 py-4 text-sm text-gray-600">{item.quantityEnum}</td>
+      <td className="px-6 py-4 text-sm text-gray-600">
+        <span className="truncate max-w-[150px]" title={item.notes || "-"}>
+          {item.notes || "-"}
+        </span>
+      </td>
+      <td className="px-6 py-4 text-sm text-gray-700">
+        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
           <FormContainer table="inventory" type="update" data={item} />
           <FormContainer table="inventory" type="delete" id={item.id} />
         </div>
       </td>
-    </tr>
+    </>
   );
 
   if (isError) {
@@ -107,6 +122,7 @@ const Page = () => {
         <Pagination
           page={Number(pageNumber)}
           count={pagination?.TotalRecords || 0}
+          pagination={pagination}
           onChange={(page) => {
             router.push(
               `/dashboard/inventory?pageNumber=${page}&SearchTerm=${searchTerm}`
