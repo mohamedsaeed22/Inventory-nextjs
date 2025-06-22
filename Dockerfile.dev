@@ -1,0 +1,33 @@
+# Base image to install dependencies and build the app
+FROM node:20 AS base
+WORKDIR /app
+
+# Copy package files
+COPY package.json package-lock.json ./
+
+# Install dependencies using npm
+RUN npm install
+
+# Copy all other files (like src, next.config.js, etc.)
+COPY . .
+
+# Optional: You can build here if needed
+# RUN npm run build
+
+# Lightweight image for development or production
+FROM node:20-alpine3.19 AS release
+WORKDIR /app
+
+# Copy dependencies and app code from base
+COPY --from=base /app/node_modules ./node_modules
+COPY --from=base /app/package.json ./package.json
+COPY --from=base /app/.next ./.next
+COPY --from=base /app/public ./public
+COPY --from=base /app/src ./src
+COPY --from=base /app . # Optional — only if you need everything
+
+# Expose the dev server port
+EXPOSE 3000
+
+# Start the app in development mode with host binding
+CMD ["npm", "run", "dev", "--", "-H", "0.0.0.0"]

@@ -18,8 +18,10 @@ const TableSearch = () => {
       const params = new URLSearchParams(window.location.search);
       if (deferredSearch) {
         params.set("SearchTerm", deferredSearch);
+        params.set("pageNumber", "1");
       } else {
         params.delete("SearchTerm");
+        params.set("pageNumber", "1");
       }
 
       router.push(`${window.location.pathname}?${params.toString()}`);
