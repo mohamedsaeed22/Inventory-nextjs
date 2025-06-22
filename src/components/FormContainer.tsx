@@ -37,7 +37,7 @@ const FormContainer = ({ table, type, data, id }: FormContainerProps) => {
         type={type}
         data={data}
         id={id}
-        relatedData={relatedData}
+        // relatedData={relatedData}
       />
     </div>
   );

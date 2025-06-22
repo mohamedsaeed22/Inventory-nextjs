@@ -19,12 +19,10 @@ const ExpensesForm = ({
   type,
   data,
   setOpen,
-  relatedData,
 }: {
   type: "create" | "update";
   data?: Expense;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  relatedData?: any;
 }) => {
   const router = useRouter();
   const {

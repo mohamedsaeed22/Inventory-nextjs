@@ -18,12 +18,10 @@ const CategoriesForm = ({
   type,
   data,
   setOpen,
-  relatedData,
 }: {
   type: "create" | "update";
   data: Loan;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  relatedData?: { existingItems: ExistingItem[] };
 }) => {
   const {
     register,
@@ -35,7 +33,7 @@ const CategoriesForm = ({
     defaultValues: {
       id: data?.id,
       toWhom: data?.toWhom || "",
-      isReturned: data?.isReturned?.toString() || "false",
+      isReturned: (data?.isReturned?.toString() as "true" | "false") || "false",
       notes: data?.notes || "",
       existingItemId: data?.existingItemId?.toString() || "",
     },
@@ -96,7 +94,7 @@ const CategoriesForm = ({
           asyncOptions={{
             queryKey: ["existingItems"],
             queryFn: getAllExistingItems,
-            dataMapper: (existingItem: any) => ({
+            dataMapper: (existingItem: ExistingItem) => ({
               label: existingItem.name,
               value: existingItem.id.toString(),
             }),

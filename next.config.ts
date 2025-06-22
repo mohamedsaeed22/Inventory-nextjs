@@ -2,9 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  experimental: {
-    serverComponentsExternalPackages: [],
-  },
+    serverExternalPackages: [],
   // Add this to make it accessible from other machines
   async headers() {
     return [

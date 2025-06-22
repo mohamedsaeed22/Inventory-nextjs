@@ -21,7 +21,6 @@ const CategoriesForm = ({
   type: "create" | "update";
   data: Category;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  relatedData?: any;
 }) => {
   const {
     register,
