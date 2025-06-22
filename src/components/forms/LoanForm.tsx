@@ -33,7 +33,8 @@ const CategoriesForm = ({
     defaultValues: {
       id: data?.id,
       toWhom: data?.toWhom || "",
-      isReturned: (data?.isReturned?.toString() as "true" | "false") || "false",
+      isReturned:
+        (data?.isReturned?.toString() as "true" | "false") || undefined,
       notes: data?.notes || "",
       existingItemId: data?.existingItemId?.toString() || "",
     },

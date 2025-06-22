@@ -30,7 +30,7 @@ const CategoriesForm = ({
     resolver: zodResolver(categorySchema),
     defaultValues: {
       name: data?.name || "",
-      number: Number(data?.number) || undefined,
+      number: data?.number?.toString() || undefined,
       id: data?.id,
     },
   });
@@ -87,7 +87,7 @@ const CategoriesForm = ({
           defaultValue={data?.number.toString()}
           register={register}
           error={errors?.number}
-          type="number"
+          type="text"
         />
       </div>
 

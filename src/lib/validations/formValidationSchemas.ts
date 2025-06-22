@@ -35,7 +35,7 @@ export type ExistingItemSchema = z.infer<typeof existingItemSchema>;
 export const categorySchema = z.object({
   id: z.coerce.number().optional(),
   name: z.string().min(2, { message: "الاسم مطلوب" }),
-  number: z.coerce.number().min(1, { message: "السريال مطلوب" }),
+  number: z.string().min(1, "السيريال مطلوب"),
 });
 
 export type CategorySchema = z.infer<typeof categorySchema>;
