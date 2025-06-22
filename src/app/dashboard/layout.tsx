@@ -41,15 +41,15 @@ export default function DashboardLayout({
         <Image
           src="/foeLogo.png"
           alt="logo"
-          width={100}
-          height={100}
+          width={150}
+          height={150}
           priority
           className="mx-auto"
         />
         <Sidebar />
       </div>
       {/* RIGHT */}
-      <div className="w-[86%] md:w-[92%] lg:w-[84%] xl:w-[86%] bg-[#F7F8FA] overflow-scroll flex flex-col p-4 ">
+      <div className="w-[86%] md:w-[92%] lg:w-[84%] xl:w-[86%] bg-[#F7F8FA] overflow-y-auto flex flex-col p-4 ">
         {children}
       </div>
       
