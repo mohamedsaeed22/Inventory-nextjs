@@ -68,7 +68,7 @@ const SummaryCard = ({
   isLoading?: boolean;
   trend?: { value: number; isPositive: boolean };
 }) => (
-  <div className="group relative bg-gradient-to-br from-white via-gray-50/50 to-white rounded-xl p-4 shadow-[0_4px_20px_rgb(0,0,0,0.06)] border-l-4 border-gray-100/50 hover:shadow-[0_8px_30px_rgb(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-1 hover:scale-[1.01] overflow-hidden">
+  <div className="group relative bg-gradient-to-br from-white via-gray-50/50 to-white rounded-xl p-4 shadow-[0_4px_20px_rgb(0,0,0,0.06)] border-l-4 border-blue-200 hover:shadow-[0_8px_30px_rgb(0,0,0,0.1)] transition-all duration-300 hover:-translate-y-1 hover:scale-[1.01] overflow-hidden ">
     {/* Animated background gradient */}
     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[100%]"></div>
 
@@ -661,8 +661,6 @@ const EnhancedHeader = () => {
           <div className="flex items-center space-x-6 space-x-reverse">
             {/* Time and date container */}
             <div className="text-right space-y-2">
-             
-
               <div className="flex items-center justify-end space-x-2 space-x-reverse">
                 <Calendar className="w-4 h-4 text-purple-500" />
                 <div className="text-sm text-gray-600 font-medium">
