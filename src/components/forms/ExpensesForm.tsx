@@ -11,7 +11,7 @@ import {
   ExpenseSchema,
 } from "@/lib/validations/formValidationSchemas";
 import SelectField from "../SelectField";
-import {  Expense } from "@/types";
+import { Expense } from "@/types";
 import { useExpenses } from "@/hooks/useExpenses";
 import { getAllExistingItems } from "@/lib/api/existingItems";
 
@@ -31,9 +31,18 @@ const ExpensesForm = ({
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<ExpenseSchema>({
     resolver: zodResolver(expenseSchema),
+    defaultValues: {
+      id: data?.id,
+      dispensedQuantity: data?.dispensedQuantity?.toString() || undefined,
+      existingItemId: data?.existingItemId?.toString() || undefined,
+      toWhom: data?.toWhom || "",
+      receiverName: data?.receiverName || "",
+      deliveredName: data?.deliveredName || "",
+      notes: data?.notes || "",
+    },
   });
   const { createExpense, updateExpense } = useExpenses();
   const onSubmit = handleSubmit((data) => {
@@ -137,8 +146,12 @@ const ExpensesForm = ({
       </div>
       {/* isdirty is true then show button */}
       <button
-        className="bg-blue-400 text-white p-2 rounded-md w-max self-center cursor-pointer"
-        // disabled={!isDirty && !!data}
+        className={`bg-blue-400 text-white p-2 rounded-md w-max self-center ${
+          !isDirty && !!data
+            ? "bg-gray-400 cursor-not-allowed"
+            : "cursor-pointer"
+        }`}
+        disabled={!isDirty && !!data}
       >
         {type === "create" ? "اضافة" : "تعديل"}
       </button>

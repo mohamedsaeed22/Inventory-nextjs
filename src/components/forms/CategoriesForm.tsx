@@ -17,7 +17,7 @@ const CategoriesForm = ({
   type,
   data,
   setOpen,
- }: {
+}: {
   type: "create" | "update";
   data: Category;
   setOpen: Dispatch<SetStateAction<boolean>>;
@@ -93,9 +93,10 @@ const CategoriesForm = ({
       </div>
 
       <button
-        // if disabled then show button with bg-gray-400 text-white
-        className={`bg-blue-400 text-white p-2 rounded-md w-max self-center cursor-pointer ${
-          !isDirty && !!data ? "bg-gray-400 cursor-not-allowed" : ""
+        className={`bg-blue-400 text-white p-2 rounded-md w-max self-center ${
+          !isDirty && !!data
+            ? "bg-gray-400 cursor-not-allowed"
+            : "cursor-pointer"
         }`}
         disabled={!isDirty && !!data}
       >

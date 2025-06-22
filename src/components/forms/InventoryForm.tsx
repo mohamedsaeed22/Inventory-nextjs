@@ -10,7 +10,7 @@ import {
   ExistingItemSchema,
 } from "@/lib/validations/formValidationSchemas";
 import SelectField from "../SelectField";
- import { useExistingItems } from "@/hooks/useExistingItems";
+import { useExistingItems } from "@/hooks/useExistingItems";
 import { getAllCategories } from "@/lib/api/categories";
 
 const InventoryForm = ({
@@ -29,9 +29,19 @@ const InventoryForm = ({
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<ExistingItemSchema>({
     resolver: zodResolver(existingItemSchema),
+    defaultValues: {
+      id: data?.id,
+      name: data?.name || "",
+      brand: data?.brand || "",
+      serial: data?.serial || "",
+      quantity: data?.quantity,
+      quantityEnum: data?.quantityEnum,
+      sqId: data?.sqId,
+      notes: data?.notes || "",
+    },
   });
   const { createExistingItem, updateExistingItem } = useExistingItems();
   const onSubmit = handleSubmit((data) => {
@@ -151,8 +161,12 @@ const InventoryForm = ({
       />
       {/* isdirty is true then show button */}
       <button
-        className="bg-blue-400 text-white p-2 rounded-md w-max self-center cursor-pointer"
-        // disabled={!isDirty && !!data}
+        className={`bg-blue-400 text-white p-2 rounded-md w-max self-center ${
+          !isDirty && !!data
+            ? "bg-gray-400 cursor-not-allowed"
+            : "cursor-pointer"
+        }`}
+        disabled={!isDirty && !!data}
       >
         {type === "create" ? "اضافة" : "تعديل"}
       </button>
