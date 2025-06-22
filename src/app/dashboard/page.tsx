@@ -20,7 +20,37 @@ import {
   BarChart3,
   Users,
   Package,
+  Home,
+  Settings,
+  Bell,
+  Search,
+  Calendar,
+  Sun,
+  Moon,
+  Sparkles,
+  Zap,
+  Target,
+  Award,
+  User,
+  Crown,
 } from "lucide-react";
+import {
+  PieChart as RechartsPieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  LineChart,
+  Line,
+  Area,
+  AreaChart,
+} from "recharts";
 
 // Enhanced Summary Card Component
 const SummaryCard = ({
@@ -163,6 +193,194 @@ const ProgressChart = ({
   </div>
 );
 
+// Beautiful Recharts Pie Chart Component
+const BeautifulPieChart = ({
+  data,
+  title,
+  icon,
+}: {
+  data: { label: string; value: number; color: string; percentage: number }[];
+  title: string;
+  icon?: React.ReactNode;
+}) => {
+  const COLORS = [
+    "#3B82F6", // blue-500
+    "#10B981", // green-500
+    "#8B5CF6", // purple-500
+    "#F59E0B", // amber-500
+    "#EF4444", // red-500
+    "#06B6D4", // cyan-500
+    "#84CC16", // lime-500
+    "#F97316", // orange-500
+  ];
+
+  const chartData = data.map((item, index) => ({
+    name: item.label,
+    value: item.value,
+    color: COLORS[index % COLORS.length],
+    percentage: item.percentage,
+  }));
+
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white p-4 rounded-lg shadow-lg border border-gray-200">
+          <p className="font-semibold text-gray-800">{payload[0].name}</p>
+          <p className="text-blue-600 font-bold">الكمية: {payload[0].value}</p>
+          <p className="text-gray-600">
+            النسبة: {payload[0].payload.percentage}%
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+      <div className="flex items-center mb-6">
+        {icon && (
+          <div className="p-2 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg mr-3 shadow-md">
+            <div className="text-white">{icon}</div>
+          </div>
+        )}
+        <h3 className="text-lg font-semibold text-gray-800 mr-3">{title}</h3>
+      </div>
+
+      <div className="h-64">
+        <ResponsiveContainer width="100%" height="100%">
+          <RechartsPieChart>
+            <Pie
+              data={chartData}
+              cx="50%"
+              cy="50%"
+              innerRadius={60}
+              outerRadius={100}
+              paddingAngle={5}
+              dataKey="value"
+              animationDuration={1000}
+              animationBegin={0}
+            >
+              {chartData.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={entry.color}
+                  stroke="#ffffff"
+                  strokeWidth={2}
+                />
+              ))}
+            </Pie>
+            <Tooltip content={<CustomTooltip />} />
+          </RechartsPieChart>
+        </ResponsiveContainer>
+      </div>
+
+      {/* Enhanced Legend */}
+      <div className="grid grid-cols-1 gap-3 mt-6">
+        {chartData.map((item, index) => (
+          <div
+            key={index}
+            className="group flex items-center justify-between p-3 bg-white rounded-lg border border-gray-100 hover:border-gray-200 hover:shadow-md transition-all duration-200"
+          >
+            <div className="flex items-center">
+              <div
+                className="w-4 h-4 rounded-full mr-3 group-hover:scale-110 transition-transform duration-200"
+                style={{ backgroundColor: item.color }}
+              ></div>
+              <span className="text-sm mr-2 font-medium text-gray-700 group-hover:text-gray-900 transition-colors">
+                {item.name}
+              </span>
+            </div>
+            <div className="flex items-center space-x-2 space-x-reverse">
+              <span className="text-sm font-bold text-gray-900">
+                {item.value.toLocaleString()}
+              </span>
+              <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full font-medium">
+                {item.percentage}%
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// Beautiful Bar Chart Component
+const BeautifulBarChart = ({
+  data,
+  title,
+  icon,
+}: {
+  data: { label: string; value: number; color: string }[];
+  title: string;
+  icon?: React.ReactNode;
+}) => {
+  const chartData = data.map((item, index) => ({
+    name: item.label,
+    value: item.value,
+    fill: item.color,
+  }));
+
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white p-4 rounded-lg shadow-lg border border-gray-200">
+          <p className="font-semibold text-gray-800">{label}</p>
+          <p className="text-blue-600 font-bold">القيمة: {payload[0].value}</p>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+      <div className="flex items-center mb-6">
+        {icon && (
+          <div className="p-2 bg-gradient-to-br from-green-500 to-green-600 rounded-lg mr-3 shadow-md">
+            <div className="text-white">{icon}</div>
+          </div>
+        )}
+        <h3 className="text-lg font-semibold text-gray-800 mr-3">{title}</h3>
+      </div>
+
+      <div className="h-64">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={chartData}
+            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+            <XAxis
+              dataKey="name"
+              tick={{ fontSize: 12, fill: "#6b7280" }}
+              axisLine={false}
+              tickLine={false}
+            />
+            <YAxis
+              tick={{ fontSize: 12, fill: "#6b7280" }}
+              axisLine={false}
+              tickLine={false}
+            />
+            <Tooltip content={<CustomTooltip />} />
+            <Bar
+              dataKey="value"
+              radius={[4, 4, 0, 0]}
+              animationDuration={1000}
+              animationBegin={0}
+            >
+              {chartData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.fill} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+};
+
 // Enhanced Recent Activities Component
 const RecentActivities = ({ activities }: { activities: any[] }) => (
   <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-6 shadow-lg border border-gray-100">
@@ -253,7 +471,6 @@ const QuickStats = ({
       </h3>
     </div>
 
-    
     <div className="space-y-2">
       <div className="group flex items-center justify-between p-3 bg-white rounded-xl border border-blue-200 hover:shadow-md transition-all duration-200 hover:border-blue-300">
         <div className="flex items-center">
@@ -327,6 +544,142 @@ const QuickStats = ({
   </div>
 );
 
+// Enhanced Header Component
+const EnhancedHeader = () => {
+  const [currentTime, setCurrentTime] = React.useState(new Date());
+  const [isHovered, setIsHovered] = React.useState(false);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString("ar-EG", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+    });
+  };
+
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString("ar-EG", {
+      weekday: "long",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  return (
+    <div
+      className="group relative bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30 rounded-2xl p-8 shadow-[0_8px_32px_rgb(0,0,0,0.08)] border border-white/50 backdrop-blur-sm overflow-hidden"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Animated background elements */}
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-all duration-700 rounded-2xl"></div>
+
+      {/* Floating particles effect */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div
+          className={`absolute top-4 right-4 w-2 h-2 bg-blue-400 rounded-full opacity-60 animate-bounce transition-all duration-1000 ${
+            isHovered ? "scale-150" : "scale-100"
+          }`}
+        ></div>
+        <div
+          className={`absolute top-8 left-8 w-1 h-1 bg-purple-400 rounded-full opacity-40 animate-pulse transition-all duration-1000 ${
+            isHovered ? "scale-200" : "scale-100"
+          }`}
+        ></div>
+        <div
+          className={`absolute bottom-6 right-12 w-1.5 h-1.5 bg-green-400 rounded-full opacity-50 animate-ping transition-all duration-1000 ${
+            isHovered ? "scale-150" : "scale-100"
+          }`}
+        ></div>
+      </div>
+
+      {/* Subtle grid pattern */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(0,0,0,0.03)_1px,transparent_0)] bg-[length:20px_20px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+      <div className="relative z-10">
+        <div className="flex items-center justify-between">
+          {/* Left side - Title and description */}
+          <div className="flex items-center space-x-6 space-x-reverse">
+            {/* Main icon container */}
+            <div className="relative">
+              <div className="relative p-4 bg-gradient-to-br from-blue-500 via-purple-500 to-indigo-600 rounded-2xl shadow-lg group-hover:shadow-xl transition-all duration-500 group-hover:scale-105">
+                <Home className="w-8 h-8 text-white" />
+
+                {/* Rotating ring effect */}
+                <div className="absolute inset-0 rounded-2xl border-2 border-white/20 animate-spin-slow"></div>
+
+                {/* Glow effect */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500 via-purple-500 to-indigo-600 opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-500"></div>
+              </div>
+
+              {/* Floating sparkles */}
+              <div className="absolute -top-2 -right-2">
+                <Sparkles
+                  className={`w-4 h-4 text-yellow-500 transition-all duration-500 ${
+                    isHovered ? "animate-pulse scale-125" : "scale-100"
+                  }`}
+                />
+              </div>
+            </div>
+
+            {/* Title and description */}
+            <div className="space-y-2">
+              <div className="flex items-center space-x-3 space-x-reverse">
+                <h1 className="text-4xl font-black bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent group-hover:from-blue-600 group-hover:to-purple-600 transition-all duration-500">
+                  لوحة التحكم
+                </h1>
+                <div className="flex items-center space-x-2 space-x-reverse">
+                  <Target className="w-6 h-6 text-blue-500 animate-pulse" />
+                  <Award className="w-5 h-5 text-purple-500 animate-bounce" />
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-4 space-x-reverse">
+                <p className="text-gray-600 text-lg font-medium group-hover:text-gray-700 transition-colors duration-300">
+                  مرحباً بك في نظام إدارة المخزون
+                </p>
+                <div className="flex items-center space-x-1 space-x-reverse">
+                  <Zap className="w-4 h-4 text-yellow-500 animate-pulse" />
+                  <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full font-medium">
+                    v2.0
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right side - Time, date, and status */}
+          <div className="flex items-center space-x-6 space-x-reverse">
+            {/* Time and date container */}
+            <div className="text-right space-y-2">
+             
+
+              <div className="flex items-center justify-end space-x-2 space-x-reverse">
+                <Calendar className="w-4 h-4 text-purple-500" />
+                <div className="text-sm text-gray-600 font-medium">
+                  {formatDate(currentTime)}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom accent line */}
+        <div className="mt-6 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-600 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-x-0 group-hover:scale-x-100 origin-left"></div>
+      </div>
+    </div>
+  );
+};
+
 const DashboardPage = () => {
   const { existingItems, isLoading: itemsLoading } = useExistingItems(
     "",
@@ -393,25 +746,10 @@ const DashboardPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
-      <div className="  mx-auto space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-2">
+      <div className="mx-auto space-y-8">
         {/* Enhanced Header */}
-        {/* <div className="flex items-center justify-between bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-          <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
-              لوحة التحكم
-            </h1>
-            <p className="text-gray-600 mt-1">
-              مرحباً بك في نظام إدارة المخزون
-            </p>
-          </div>
-          <div className="text-right">
-            <div className="text-sm text-gray-500">آخر تحديث</div>
-            <div className="text-lg font-semibold text-gray-900">
-              {new Date().toLocaleDateString("ar-SA")}
-            </div>
-          </div>
-        </div> */}
+        <EnhancedHeader />
 
         {/* Enhanced Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -451,39 +789,55 @@ const DashboardPage = () => {
 
         {/* Enhanced Charts and Activities Row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <ProgressChart
+          <BeautifulPieChart
             data={[
               {
-                label: "العهدة",
+                label: "أجهزة حاسوب",
+                value: 125,
+                percentage: 35,
+                color: "bg-blue-500",
+              },
+              {
+                label: "طابعات",
+                value: 89,
+                percentage: 25,
+                color: "bg-green-500",
+              },
+              {
+                label: "شاشات",
+                value: 67,
+                percentage: 19,
+                color: "bg-purple-500",
+              },
+              {
+                label: "أثاث مكتبي",
                 value: 45,
-                color: "bg-gradient-to-r from-blue-500 to-blue-600",
+                percentage: 13,
+                color: "bg-orange-500",
               },
               {
-                label: "الأصناف",
-                value: 32,
-                color: "bg-gradient-to-r from-green-500 to-green-600",
-              },
-              {
-                label: "المصروفات",
+                label: "معدات أخرى",
                 value: 28,
-                color: "bg-gradient-to-r from-purple-500 to-purple-600",
-              },
-              {
-                label: "السلف",
-                value: 15,
-                color: "bg-gradient-to-r from-orange-500 to-orange-600",
-              },
-              {
-                label: "المخزون المنخفض",
-                value: 8,
-                color: "bg-gradient-to-r from-red-500 to-red-600",
+                percentage: 8,
+                color: "bg-red-500",
               },
             ]}
-            title="توزيع العهد حسب الأصناف (dummy data)"
+            title="توزيع العهد حسب النوع (dummy data)"
             icon={<BarChart3 className="w-5 h-5" />}
           />
-          <ProgressChart
-            data={loanStatusData}
+          <BeautifulBarChart
+            data={[
+              {
+                label: "تم الإرجاع",
+                value: returnedLoans,
+                color: "#10B981",
+              },
+              {
+                label: "لم يتم الإرجاع",
+                value: pendingLoans,
+                color: "#F59E0B",
+              },
+            ]}
             title="حالة السلف"
             icon={<Users className="w-5 h-5" />}
           />
