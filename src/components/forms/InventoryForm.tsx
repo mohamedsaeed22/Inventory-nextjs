@@ -35,9 +35,9 @@ const InventoryForm = ({
       name: data?.name || "",
       brand: data?.brand || "",
       serial: data?.serial || "",
-      quantity: data?.quantity,
-      quantityEnum: data?.quantityEnum,
-      sqId: data?.sqId,
+      quantity: data?.quantity?.toString() || undefined,
+      quantityEnum: data?.quantityEnum || undefined,
+      sqId: data?.sqId?.toString() || undefined,
       notes: data?.notes || "",
     },
   });
