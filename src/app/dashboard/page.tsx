@@ -351,7 +351,8 @@ const DashboardPage = () => {
 
   // Low stock items (quantity less than 10)
   const lowStockItems = existingItems.filter((item: any) => item.quantity < 10);
-   // Recent activities (combine recent expenses and loans)
+
+  // Recent activities (combine recent expenses and loans)
   const recentActivities = [
     ...expenses.slice(0, 3).map((expense: any) => ({
       title: `تم صرف ${expense.dispensedQuantity} من ${
@@ -451,8 +452,34 @@ const DashboardPage = () => {
         {/* Enhanced Charts and Activities Row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <ProgressChart
-            data={categoryDistribution}
-            title="توزيع العهد حسب الأصناف"
+            data={[
+              {
+                label: "العهدة",
+                value: 45,
+                color: "bg-gradient-to-r from-blue-500 to-blue-600",
+              },
+              {
+                label: "الأصناف",
+                value: 32,
+                color: "bg-gradient-to-r from-green-500 to-green-600",
+              },
+              {
+                label: "المصروفات",
+                value: 28,
+                color: "bg-gradient-to-r from-purple-500 to-purple-600",
+              },
+              {
+                label: "السلف",
+                value: 15,
+                color: "bg-gradient-to-r from-orange-500 to-orange-600",
+              },
+              {
+                label: "المخزون المنخفض",
+                value: 8,
+                color: "bg-gradient-to-r from-red-500 to-red-600",
+              },
+            ]}
+            title="توزيع العهد حسب الأصناف (dummy data)"
             icon={<BarChart3 className="w-5 h-5" />}
           />
           <ProgressChart
